@@ -20,7 +20,6 @@ function App() {
     setGetTestInfo(false)
     axios.post("http://localhost:4001/shorten",{name : postName , url : postUrl})
       .then(res => {
-        console.log(res.data)
         setpostStatus(res.data)
       })
       .catch(err => {console.log(err)})
@@ -43,7 +42,6 @@ function App() {
     setpostStatus(false)
     setgetStatus(false)
     setGetTestInfo(false)
-    
     axios.get(`http://localhost:4001/find-all/urls`)
       .then(res=>{
         if(res.data){
@@ -77,7 +75,7 @@ function App() {
       <input type = "submit" value = "Shorten"/>
     </form>
 
-    {postStatus && postStatus!==`TestURL or TestName already exists!`? (<a href = {`http://localhost:4001/${postStatus}`}>{postStatus}</a>): (<div></div>)}
+    {postStatus && postStatus!==`TestURL or TestName already exists!`? (<a href = {`http://localhost:4001/${postStatus}`}>{postStatus}</a>): (<div>{postStatus}</div>)}
 
     <h2>GET A TEST LINK</h2>
     <label>Enter Test Name </label>
@@ -104,7 +102,8 @@ function App() {
     { [urls]?
       <div>
       {urls.map(url =>(
-        <TestInfo id = {url._id} name = {url.name} visits = {url.visits} short = {url.short} full = {url.full}/>))}
+        <div key = {url._id}><TestInfo  name = {url.name} visits = {url.visits} short = {url.short} full = {url.full}/></div>
+        ))}
       </div> : <div></div>
     }
     {urlsFound?<div></div>:<div>No Test URLS found</div>}
