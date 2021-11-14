@@ -77,7 +77,7 @@ function App() {
       <input type = "submit" value = "Shorten"/>
     </form>
 
-    {postStatus? (<div>{postStatus}</div>): (<div></div>)}
+    {postStatus && postStatus!==`TestURL or TestName already exists!`? (<a href = {`http://localhost:4001/${postStatus}`}>{postStatus}</a>): (<div></div>)}
 
     <h2>GET A TEST LINK</h2>
     <label>Enter Test Name </label>
