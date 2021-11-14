@@ -14,7 +14,6 @@ function App() {
 
   const handleSubmit = (e)=>{
     e.preventDefault()
-    console.log()
     setpostStatus(false)
     setgetStatus(false)
     setGetTestInfo(false)
@@ -31,7 +30,6 @@ function App() {
     setgetStatus(false)
     axios.get(`http://localhost:4001/name/${getName}`)
       .then(res => {
-        console.log(res.data)
         if(res.data === "No Test links found") setgetStatus("No Test links found")
         else setGetTestInfo(res.data)
       })
@@ -44,8 +42,7 @@ function App() {
     setGetTestInfo(false)
     axios.get(`http://localhost:4001/find-all/urls`)
       .then(res=>{
-        if(res.data){
-          console.log(res.data)
+        if([res.data]){
           setUrls(res.data)
         }else setUrlsFound(false)
       })
