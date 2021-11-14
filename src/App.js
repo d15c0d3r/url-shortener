@@ -10,7 +10,7 @@ function App() {
   const [getStatus , setgetStatus] = useState(false);
   const [getTestInfo, setGetTestInfo] = useState(false);
   const [urls, setUrls] = useState([]);
-
+  
   const handleSubmit = (e)=>{
     e.preventDefault()
     setgetStatus(false)
@@ -25,7 +25,7 @@ function App() {
 
   const getURL = (e)=>{
     e.preventDefault()
-    axios.get(`http://localhost:4001/${getName}`)
+    axios.get(`http://localhost:4001/name/${getName}`)
       .then(res => {
         console.log(res.data)
         if(res.data === "No Test links found") setgetStatus("No Test links found")
@@ -73,7 +73,7 @@ function App() {
 
     {getStatus? (<div>{getStatus}</div>): (<div></div>)}
     {getTestInfo? 
-      <TestInfo name = {getTestInfo.name} visits = {getTestInfo.visits} short = {getTestInfo.short}/> : <div></div>
+      <TestInfo name = {getTestInfo.name} visits = {getTestInfo.visits} short = {getTestInfo.short} full = {getTestInfo.full}/> : <div></div>
     }
 
     <h2>GET ALL TEST LINKS</h2>

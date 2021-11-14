@@ -5,7 +5,11 @@ export default function TestLink(props){
             <br/>
             <h>Test name : {props.name}</h>
             <br/>
-            <h>Test Link : {props.short}</h>
+            <h>Full Link :</h>
+            <a href = {props.full}>{props.full}</a>
+            <br/>
+            <h>Short Link :</h>
+            <a href = {`http://localhost:4001/${props.short}`}>{props.short}</a>
             <br/>
             <h>Visits : {props.visits}</h>
             <br/>

@@ -44,14 +44,15 @@ app.post("/shorten", async(req,res)=>{
     
 })
 
-app.get("/:name" , async(req,res)=>{
+app.get("/name/:name" , async(req,res)=>{
     const name  = req.params.name
 
     //check if test name already exists
-    const found = await Url.findOne({name})
+    const found = await Url.findOne({name : name})
     if(found){
         return res.send({
             name  : found.name,
+            full : found.full,
             short : found.short,
             visits : found.visits,
         })
@@ -59,4 +60,13 @@ app.get("/:name" , async(req,res)=>{
 
 })
 
+app.get("/:url" , async(req,res)=>{
+    const url  = req.params.url
+    console.log(url)
+    //check if test name already exists
+    const found = await Url.findOne({short : url})
+    if(found){
+        res.redirect(found.full)
+    }
 
+})
