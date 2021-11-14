@@ -1,7 +1,8 @@
 
 export default function TestLink(props){
     return(
-        <h>
+        <h id = {props.id}> 
+            <div>{console.log(props)}</div>
             <br/>
             <h>Test name : {props.name}</h>
             <br/>

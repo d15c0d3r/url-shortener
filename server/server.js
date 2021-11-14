@@ -20,11 +20,10 @@ app.post("/shorten", async(req,res)=>{
     const check_url = req.body.url
     const check_name = req.body.name
     console.log(req.body)
-
     //check if the url exists and add to db
-    const found_url = await Url.findOne({check_url})
-    const found_name = await Url.findOne({check_name})
-    if(found_url || found_name){
+    const [found] = await Url.find({full : req.body.url, name : req.body.name})
+    console.log(found)
+    if(found){
         return res.send("TestURL or TestName already exists!")
     }
     else{
@@ -34,7 +33,7 @@ app.post("/shorten", async(req,res)=>{
         })
         url.save()
             .then(result=>{
-                console.log(result)
+                console.log()
                 return res.send("Test Link added!")
             })
             .catch(err=>{
@@ -60,6 +59,11 @@ app.get("/name/:name" , async(req,res)=>{
 
 })
 
+app.get("/find-all/urls", async(req,res)=>{
+    const urls = await Url.find();
+    return res.send(urls)
+})
+
 app.get("/:url" , async(req,res)=>{
     const url  = req.params.url
 
@@ -79,5 +83,5 @@ app.get("/:url" , async(req,res)=>{
         }
         res.redirect(found.full)
     }
-
 })
+
