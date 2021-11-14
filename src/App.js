@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios"
-import TestInfo from "./TestInfo";
 import {Button, Alert, Form, Table}from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
