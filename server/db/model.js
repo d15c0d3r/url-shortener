@@ -15,7 +15,6 @@ const urlSchema = new Schema({
     short : {
         type : String,
         required : true,
-        default : shortId.generate
     },
     visits : {
         type : Number,
