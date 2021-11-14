@@ -62,10 +62,21 @@ app.get("/name/:name" , async(req,res)=>{
 
 app.get("/:url" , async(req,res)=>{
     const url  = req.params.url
-    console.log(url)
+
     //check if test name already exists
     const found = await Url.findOne({short : url})
+
     if(found){
+        const new_visits = found.visits+1
+        try{
+            const found = await Url.findOneAndUpdate({short : url}, {
+                $set : {
+                    visits : new_visits
+                }   
+            })
+        }catch(err){
+            console.log(err);
+        }
         res.redirect(found.full)
     }
 

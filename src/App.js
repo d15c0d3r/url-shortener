@@ -10,9 +10,10 @@ function App() {
   const [getStatus , setgetStatus] = useState(false);
   const [getTestInfo, setGetTestInfo] = useState(false);
   const [urls, setUrls] = useState([]);
-  
+
   const handleSubmit = (e)=>{
     e.preventDefault()
+    setpostStatus(false)
     setgetStatus(false)
     setGetTestInfo(false)
     axios.post("http://localhost:4001/shorten",{name : postName , url : postUrl})
@@ -25,6 +26,8 @@ function App() {
 
   const getURL = (e)=>{
     e.preventDefault()
+    setpostStatus(false)
+    setgetStatus(false)
     axios.get(`http://localhost:4001/name/${getName}`)
       .then(res => {
         console.log(res.data)
@@ -34,7 +37,7 @@ function App() {
   }
 
   const getAllURLs = ()=>{
-    //get All URLs
+    
   }
 
   return (
@@ -77,7 +80,7 @@ function App() {
     }
 
     <h2>GET ALL TEST LINKS</h2>
-    <button onClick = {(e)=>getAllURLs()}>Get Test links</button>
+    <button onClick = {()=>getAllURLs()}>Get Test links</button>
     </div>
   );
 }
