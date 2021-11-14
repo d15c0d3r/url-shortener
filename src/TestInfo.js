@@ -1,19 +1,16 @@
+import Table from "react-bootstrap/Table"
 
 export default function TestLink(props){
+    const test = props.test
     return(
-        <h1> 
-            <div>{console.log(props)}</div>
-            <br/>
-            <h>Test name : {props.name}</h>
-            <br/>
-            <h>Full Link :</h>
-            <a href = {props.full}>{props.full}</a>
-            <br/>
-            <h>Short Link :</h>
-            <a href = {`http://localhost:4001/${props.short}`}>{props.short}</a>
-            <br/>
-            <h>Visits : {props.visits}</h>
-            <br/>
-        </h1>
+        <div>
+            <tbody>
+                <tr>
+                <td>{test.name}</td>
+                <td>{test.full}</td>
+                <td><a href = {`http://localhost:4001/${test.short}`}>{test.short}</a></td>
+                </tr>
+            </tbody>
+        </div>
     )
 }

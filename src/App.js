@@ -1,6 +1,9 @@
 import { useState } from "react";
 import axios from "axios"
 import TestInfo from "./TestInfo";
+import {Button, Alert, Form, Table}from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   const [postUrl, setpostUrl] = useState("");
@@ -10,7 +13,6 @@ function App() {
   const [getStatus , setgetStatus] = useState(false);
   const [getTestInfo, setGetTestInfo] = useState(false);
   const [urls, setUrls] = useState([]);
-  const [urlsFound, setUrlsFound] = useState(true)
 
   const handleSubmit = (e)=>{
     e.preventDefault()
@@ -28,7 +30,6 @@ function App() {
     e.preventDefault()
     setpostStatus(false)
     setgetStatus(false)
-    setUrlsFound(true)
     axios.get(`http://localhost:4001/name/${getName}`)
       .then(res => {
         if(res.data === "No Test links found") setgetStatus("No Test links found")
@@ -45,7 +46,7 @@ function App() {
       .then(res=>{
         if(res.data[0]){
           setUrls(res.data)
-        }else setUrlsFound(false)
+        }
       })
       .catch(err=>{
         console.log(err)
@@ -54,57 +55,110 @@ function App() {
 
   return (
     <div>
-    <h2>SHORTEN TEST LINK</h2>
-    <form onSubmit = {(e)=>{handleSubmit(e)}}>
-      <label>Enter Test Name </label>
-        <input 
-          required
-          id = "name1" 
-          type = "text" 
-          onChange = {(e)=>{setpostName(e.target.value)}}/>
-          <br/>
-        <label>Enter URL to Shorten </label>
-        <input 
-          required
-          id = "url" 
-          type = "text" 
-          onChange = {(e)=>{setpostUrl(e.target.value)}}/>
-          <br/>
-      <input type = "submit" value = "Shorten"/>
-    </form>
+      <Form onSubmit = {(e)=>{handleSubmit(e)}}>
+        <Alert  
+          variant='primary'>
+          <h3>SHORTEN TEST LINK</h3>
+        </Alert>
+        <Form.Group className="mb-3" controlId="urlname">
+          <Form.Control 
+            type="text" 
+            placeholder="Enter URL Name" 
+            required
+            onChange = {(e)=>{setpostName(e.target.value)}}
+          />
+        </Form.Group>
 
-    {postStatus && postStatus!==`TestURL or TestName already exists!`? (<a href = {`http://localhost:4001/${postStatus}`}>{postStatus}</a>): (<div>{postStatus}</div>)}
+        <Form.Group className="mb-4" controlId="url">
+          <Form.Control 
+            type="text" 
+            placeholder="Enter URL" 
+            required 
+            onChange = {(e)=>{setpostUrl(e.target.value)}}/>
+          {postStatus && postStatus!==`TestURL or TestName already exists!`? 
+          <Form.Text 
+            className="text-muted">
+              <a href = {`http://localhost:4001/${postStatus}`}>{postStatus}</a>
+          </Form.Text> : 
+          <Form.Text className="text-primary">{postStatus}</Form.Text>}
+        </Form.Group>
 
-    <h2>GET A TEST LINK</h2>
-    <label>Enter Test Name </label>
-    <form onSubmit = {(e)=>{getURL(e)}}>
-      <input 
-        required
-        id = "name2" 
-        type = "text" 
-        onChange = {(e)=>{setGetName(e.target.value)}}/>
-      <input type = "submit" value = "Get Link"/>
-    </form>
-
-    {getStatus? (<div>{getStatus}</div>) : (<div></div>)}
-    {getTestInfo? 
-      <TestInfo  name = {getTestInfo.name} visits = {getTestInfo.visits} short = {getTestInfo.short} full = {getTestInfo.full}/> : <div></div>
-    }
-
-    <h2>GET ALL TEST LINKS</h2>
-
-    <form onSubmit = {(e)=>{getAllURLs(e)}}>
-      <input value = "Get Test links" type = "submit"/>
-    </form>
-
-    { [urls]?
-      <div>
-      {urls.map(url =>(
-        <div key = {url._id}><TestInfo  name = {url.name} visits = {url.visits} short = {url.short} full = {url.full}/></div>
+        <Button 
+          variant="primary" 
+          type="submit">
+          Shorten
+        </Button>
+      </Form>
+      <br/>
+      <Form onSubmit = {(e)=>{getURL(e)}}>
+        <Alert  
+          variant='primary'>
+          <h3>GET A TEST LINK</h3>
+        </Alert>
+        <Form.Group className="mb-3">
+        <Form.Control 
+            type="text" 
+            placeholder="Enter test name" 
+            required 
+            onChange = {(e)=>{setGetName(e.target.value)}}/>
+        {getStatus? <Form.Text className="text-primary">{getStatus}</Form.Text> : <div></div>}
+        </Form.Group>
+        
+        <Button 
+          variant="primary" 
+          type="submit">
+          Get test info
+        </Button>
+      </Form>
+      <br/>
+      {getTestInfo? 
+        <div>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+              <th>TestName</th>
+              <th>Full URL</th>
+              <th>Short URL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr hover = {true}>
+              <td>{getTestInfo.name}</td>
+              <td>{getTestInfo.full}</td>
+              <td><a href = {`http://localhost:4001/${getTestInfo.short}`}>{getTestInfo.short}</a></td>
+              </tr>
+            </tbody>
+          </Table>
+        </div> : <div></div>
+      }
+      <Form onSubmit = {(e)=>{getAllURLs(e)}}>
+        <Alert variant = "primary"><h3>GET ALL TESTS LINKS</h3></Alert>
+        <Form.Group className="mb-3">
+          <Button 
+            variant="primary" 
+            type="submit">
+            Get all tests
+          </Button>
+        </Form.Group>
+      </Form>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+          <th>TestName</th>
+          <th>Full URL</th>
+          <th>Short URL</th>
+          </tr>
+        </thead>
+        {urls.map(url =>(
+          <tbody key = {url._id}>
+            <tr>
+            <td>{url.name}</td>
+            <td>{url.full}</td>
+            <td><a href = {`http://localhost:4001/${url.short}`}>{url.short}</a></td>
+            </tr>
+          </tbody>
         ))}
-      </div> : <div></div>
-    }
-    {urlsFound?<div></div>:<div>No Test URLS found</div>}
+      </Table>
     </div>
   );
 }
