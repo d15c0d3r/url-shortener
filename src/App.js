@@ -28,6 +28,7 @@ function App() {
     e.preventDefault()
     setpostStatus(false)
     setgetStatus(false)
+    setUrlsFound(true)
     axios.get(`http://localhost:4001/name/${getName}`)
       .then(res => {
         if(res.data === "No Test links found") setgetStatus("No Test links found")
@@ -42,7 +43,7 @@ function App() {
     setGetTestInfo(false)
     axios.get(`http://localhost:4001/find-all/urls`)
       .then(res=>{
-        if([res.data]){
+        if(res.data[0]){
           setUrls(res.data)
         }else setUrlsFound(false)
       })
