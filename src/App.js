@@ -118,6 +118,7 @@ function App() {
               <th>TestName</th>
               <th>Full URL</th>
               <th>Short URL</th>
+              <th>Visits</th>
               </tr>
             </thead>
             <tbody>
@@ -125,6 +126,7 @@ function App() {
               <td>{getTestInfo.name}</td>
               <td>{getTestInfo.full}</td>
               <td><a href = {`http://localhost:4001/${getTestInfo.short}`}>{getTestInfo.short}</a></td>
+              <td>{getTestInfo.visits}</td>
               </tr>
             </tbody>
           </Table>
@@ -146,6 +148,7 @@ function App() {
           <th>TestName</th>
           <th>Full URL</th>
           <th>Short URL</th>
+          <th>Visits</th>
           </tr>
         </thead>
         {urls.map(url =>(
@@ -154,6 +157,7 @@ function App() {
             <td>{url.name}</td>
             <td>{url.full}</td>
             <td><a href = {`http://localhost:4001/${url.short}`}>{url.short}</a></td>
+            <td>{url.visits}</td>
             </tr>
           </tbody>
         ))}
